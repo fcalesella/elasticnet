@@ -103,15 +103,6 @@ Bootstrap statistics:
 The seed was set to 1234 for reproducibility. By changing the seed, some statistical variation may be observed, but stability should improve by increasing the number of bootstrap iterations.
 The execution took around 70s on a DELL XPS-13 (processor: Intel i7; RAM: 16GB; OS: Windows11).
 
-The model might be saved using the following code:
-```matlab
-save('model.mat');
-```
-Alternatively, it is also possible to save to excel file both the performance measures as a result of the cross-validation and the results of the bootstrap with the following code:
-```matlab
-writetable(performance, performance.xlsx);
-writetable(bootstrap_results, bootstrap_results.xlsx)
-```
 ## 5. Contributors <a name="Contributors"></a>
 Federico Calesella\
 Silvia Cazzetta\
