@@ -77,80 +77,54 @@ The synthetic data was created using the ```make_classification``` function of t
 To run the *elastic_net.mat* file, it is recommended to position the MATLAB working directory in the demo folder, and type ```elastic_net``` in the Command Window. The expected output should be structured as follows:
 ```matlab
 >> elastic_net
-Warning: Variable names were modified to make them valid MATLAB identifiers. The original names are saved in the VariableDescriptions property. 
-Starting parallel pool (parpool) using the 'local' profile ... connected to 12 workers.
-
-Selected parameters:
-External CV: 10 fold
-Internal CV: 10 fold
-Bootstrap: 500 iterations
 
 Running cross-validation...
+Selected parameters:
+External CV: 5 fold
+Internal CV: 5 fold
+
 Cross-validation state: done.
 
-Sensitivity = 0.9600
-Specificity = 0.8800
-PPV = 0.8889
-NPV = 0.9565
-Balance Accuracy = 0.9200
-Diagnostic Odd Ratio = 176.0000
-AUC across cross-validations:
-    1.0000    1.0000    1.0000    1.0000    1.0000    0.9200    0.6800    1.0000    1.0000    0.9200
-
-AUC statistics:
-Mean = 0.9520
-S.D. = 0.1012
-
+Cross-validation results:
+MSE = 0.0009
+RMSE = 0.0304
+R squared = 0.9991
 
 Running Bootstrap...
+Selected number of iterations: 500
+
 Bootstrap state: done.
 
 Bootstrap statistics:
+     Variables        Mean          Median          SD          LowerCI       UpperCI      VIP 
+    ___________    ___________    __________    __________    ___________    __________    ____
 
-     Variables       Mean        Median        SD       LowerCI     UpperCI     VIP 
-    ___________    _________    _________    _______    ________    ________    ____
-
-    'Intercept'      -1.3915      -1.2248    0.81054     -2.9802     0.19718     100
-    'x1'            -0.77865     -0.66295    0.62717     -2.0079     0.45059    95.4
-    'x2'            -0.65308     -0.58322    0.61492     -1.8583     0.55216    90.8
-    'x3'             -2.1757      -1.9838    0.85562     -3.8527     -0.4987     100
-    'x4'           -0.070612            0    0.43332    -0.91992      0.7787      75
-    'x5'             0.26694      0.27465    0.66673     -1.0398      1.5737    87.8
-    'x6'             -1.1764      -1.0401    0.79724     -2.7389     0.38623    95.8
-    'x7'              0.3972      0.30265    0.58046    -0.74051      1.5349    82.4
-    'x8'             0.21779      0.06965    0.41958     -0.6046      1.0402    73.2
-    'x9'             0.27531      0.15965    0.44729    -0.60137       1.152    77.6
-    'x10'            0.43749      0.36465    0.49671    -0.53605       1.411    88.2
-    'x11'             2.6697       2.4471    0.97285     0.76287      4.5764     100
-    'x12'           -0.29775     -0.19324    0.51413     -1.3054     0.70993    85.6
-    'x13'           -0.69496     -0.59408    0.58651     -1.8445     0.45461    92.4
-    'x14'          -0.035402            0    0.18405    -0.39614     0.32534    24.4
-    'x15'            0.12551            0    0.57889     -1.0091      1.2601    75.4
-    'x16'             2.6031       2.3375     1.1744     0.30134      4.9048     100
-    'x17'           -0.58761      -0.4839    0.60248     -1.7685     0.59324      85
-    'x18'           -0.13754    -0.013791    0.44043     -1.0008      0.7257    75.6
-    'x19'             -1.431      -1.2922    0.77691     -2.9538    0.091725    99.6
-    'x20'            0.74556      0.54392    0.81383    -0.84954      2.3407    88.6
+    'Intercept'     0.00015337    0.00022764     0.0032277     -0.0064795     0.0061727     100
+    'x1'                     0             0             0              0             0       0
+    'x2'            1.8433e-05             0    0.00014581    -0.00030421    0.00026734     1.6
+    'x3'                     0             0             0              0             0       0
+    'x4'                     0             0             0              0             0       0
+    'x5'                     0             0             0              0             0       0
+    'x6'                     0             0             0              0             0       0
+    'x7'                     0             0             0              0             0       0
+    'x8'                     0             0             0              0             0       0
+    'x9'                0.1807       0.18106     0.0030155        0.17497       0.18679     100
+    'x10'                    0             0             0              0             0       0
+    'x11'                    0             0             0              0             0       0
+    'x12'                    0             0             0              0             0       0
+    'x13'              0.96615       0.96618     0.0024425        0.96231       0.97189     100
+    'x14'           0.00020816             0    0.00081842     -0.0018122     0.0013959    12.4
+    'x15'                    0             0             0              0             0       0
+    'x16'                    0             0             0              0             0       0
+    'x17'                    0             0             0              0             0       0
+    'x18'                    0             0             0              0             0       0
+    'x19'          -3.1374e-05             0    0.00034972    -0.00065407    0.00071682     0.8
+    'x20'                    0             0             0              0             0       0
 ```
-Some statistical variation is expected in the results and the number of workers found might vary depending on the computer.
-The execution is expected to take a few minutes on a desktop computer and approximately 20-30 minutes on a laptop.
-Two figures will also prompt for the results of the cross-validation: 
-- the confusion matrix
-- the ROC curve
+The seed was set 1234 for reproducibility. By changing the seed, some statistical variation may be observed, but stability should improve by increasing the number of bootstrap iterations.
+The execution took around 70s on a DELL XPS-13 (processor: Intel i7; RAM: 16GB; OS: Windows11).
 
 The model might be saved using the following code:
 ```matlab
 save('model.mat');
-```
-
-If of interest then, the *sig_test.mat* file might be run by typing ```sig_test``` in the Command Window, in order to estimate predictions using only the most relevant predictors as resulted from the bootstrap procedure (see the [Instructions for Use](#Instructions_for_Use) section for further explanations). This script can be run only after the ```elastic_net``` script was run and the model saved. The script will output the results of the cross-validation in MATLAB Command Window, as well as the confusion matrix and the ROC curve of the model:
-```matlab
->> sig_test
-Sensitivity = 0.9800
-Specificity = 0.9400
-PPV = 0.9423
-NPV = 0.9792
-Balance Accuracy = 0.9600
-Diagnostic Odd Ratio = 767.6667
-AUC = 0.9964
 ```
