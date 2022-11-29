@@ -30,7 +30,7 @@ Please note that the MATLAB Statistics and Machine Learning Toolbox and Parallel
 ### ii. Installation <a name="Installation"></a>
 For installation the repository folder must be downloaded or cloned.\
 If the ZIP folder is downloaded, then it will be required to un-zip it, whereas to clone the repository a working github version will be required.  
-Lastly, the "src" folder will have to be added to the MATLAB path. The setup process should require only a few minutes.
+Lastly, the *src* folder will have to be added to the MATLAB path. The setup process should require only a few minutes.
 
 ## Instructions for Use <a name="Instructions_for_Use"></a>
 To estimate elastic net regression both in a stratified nested cross-validation and bootstrap routines, the ```elastic_net``` script can be run. Data are expected to be organized in an excel file with subjects in rows and features in columns. The dataset should include the target variable.\
