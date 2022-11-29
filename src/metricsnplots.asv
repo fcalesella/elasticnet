@@ -104,16 +104,19 @@ else
     
     % Model accuracy with MSE.
     MSE = mean((cv.Preds - cv.Tests).^2);
+    fprintf('MSE = %.4f\n', MSE)
     measures.MSE = MSE;
 
     % Model accuracy with RMSE.
     RMSE = sqrt(MSE);
+    fprintf('RMSE = %.4f\n', RMSE)
     measures.RMSE = RMSE;
 
     % Model accuracy with R square.
     sst = sum((cv.Tests - mean(cv.Tests)).^2);
     sse = sum((cv.Preds - cv.Tests).^2);
     Rsq = 1 - sse / sst;
+    fprintf('R squared = %.4f\n', Rsq)
     measures.Rsq = Rsq;
     
     % Plot predictions.

@@ -101,10 +101,12 @@ cv_options.RegressionType = data_options.TargetType;
 cv_results = outer_cv(X, y, cv_options);
 
 fprintf('\n\nCross-validation state: done.')
-fprintf('\n\nCross-validation results:\n')
 
 % Calculate accuracy metrics and create the plots.
 [performance, figures] = metricsnplots(cv_options.RegressionType, cv_results);
+
+fprintf('\n\nCross-validation results:\n')
+disp(performance)
 
 %% RUN BOOTSTRAP
 
