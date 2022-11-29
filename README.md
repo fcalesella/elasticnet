@@ -6,9 +6,9 @@
 2. [Setup](#Setup)
    1. [System Requirements](#System_Requirements)
    2. [Installation](#Installation)
-5. [Instructions for Use](#Instructions_for_Use)
-6. [Demo](#Demo)
-7. [Contributors](#Contributors)
+3. [Instructions for Use](#Instructions_for_Use)
+4. [Demo](#Demo)
+5. [Contributors](#Contributors)
 
 ## 1. Project Overview <a name="Project_Overview"></a>
 The code is intended to estimate elastic-net regression in a machine learning framework, for target prediction purposes. Specifically, it comprises the following pipelines: 
@@ -30,7 +30,7 @@ For installation, the repository folder must be downloaded or cloned.\
 If the ZIP folder is downloaded, then it will be required to un-zip it, whereas to clone the repository a working github version will be required.  
 Lastly, the *src* folder will have to be added to the MATLAB path. The setup process should require only a few minutes.
 
-## Instructions for Use <a name="Instructions_for_Use"></a>
+## 3. Instructions for Use <a name="Instructions_for_Use"></a>
 To estimate elastic net regression both in a stratified nested cross-validation and bootstrap routines, the ```elastic_net``` script can be run. Data are expected to be organized in an excel file with subjects in rows and features in columns. The dataset should include the target variable.\
 Input parameters of ```elastic_net``` and their explanation can be found in the first lines of the script.\
 Relevant outputs are:
@@ -49,7 +49,7 @@ writetable(performance, performance.xlsx);
 writetable(bootstrap_results, bootstrap_results.xlsx)
 ```
 
-## Demo <a name="Demo"></a>
+## 4. Demo <a name="Demo"></a>
 The ```elastic_net``` script can be run in order to try the code and perform both nested cross-validation and bootstrap on synthetic data (see the [Instructions for Use](#Instructions_for_Use) section for instructions on how to run the script).
 The synthetic datasets were created using the ```make_classification``` and ```make_regression``` functions of the *scikit-learn* (version 0.23.2) package in *python*, and they are provided in excel format. The code to produce the synthetic datasets is also available in the demo folder (*create_synthetic_data_classification.py* and *create_synthetic_data_regression.py*): the full path where to save the dataset (in excel) needs to be provided at line 12.
 
@@ -112,7 +112,7 @@ Alternatively, it is also possible to save to excel file both the performance me
 writetable(performance, performance.xlsx);
 writetable(bootstrap_results, bootstrap_results.xlsx)
 ```
-## 7. Contributors <a name="Contributors"></a>
+## 5. Contributors <a name="Contributors"></a>
 Federico Calesella\
 Silvia Cazzetta\
 Federica Colombo\
