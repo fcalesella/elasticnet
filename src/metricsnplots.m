@@ -140,4 +140,6 @@ else
     
 end
 
+measures = struct2table(measures);
+
 end

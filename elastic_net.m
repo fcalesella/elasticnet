@@ -104,7 +104,7 @@ fprintf('\n\nCross-validation state: done.')
 fprintf('\n\nCross-validation results:\n')
 
 % Calculate accuracy metrics and create the plots.
-[measures, figures] = metricsnplots(cv_options.RegressionType, cv_results);
+[performance, figures] = metricsnplots(cv_options.RegressionType, cv_results);
 
 %% RUN BOOTSTRAP
 
