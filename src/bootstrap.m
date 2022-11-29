@@ -1,43 +1,32 @@
-function [bootprint] = bootstrap(nboots, x, y, params)
-% Perform bootstrap with an elastic net penalized fit.
+function [bootstrap_results] = bootstrap(X, y, bootstrap_options)
+% Perform bootstrap of the partuner funciton.
 % Inputs:
-%   nboots: number of bootstrap iterations to be performed
-%   x: n-by-p data matrix, where n is the number of observations and p the
+%   X: n-by-p data matrix, where n is the number of observations and p the
 %       number of predictors.
 %   y: target measure.
-%   params: structure array containing the parameters to be passed to
-%       lassoglm.
+%   boostrap_options: structure array containing the parameters to be 
+%       passed to bootci.
 % Outputs:
-%   bootprint: structure array containing the results of the bootstrap.
+%   bootstrap_results: structure array with bootstrap statics.
 
-% Initialize the variables to be saved.
-[nsubj, nfeats] = size(x);
-boot_coefs = zeros(nfeats + 1, nboots);
-boot_alpha = zeros(1, nboots);
-boot_lambda = zeros(1, nboots);
+% Define the funciton to be bootstrapped that will be partuner.
+bootfun = @(x, y, options)partuner(x, y, options);
 
-% Copy x and y to each worker.
-x = parallel.pool.Constant(x);
-y = parallel.pool.Constant(y);
+% Run the bootstrap and compute confidence intervals.
+[ci, bootstat] = bootci(bootstrap_options.NResamples,...
+        {bootfun, X, y, bootstrap_options.Model},...
+        'Type', bootstrap_options.BootstrapType,...
+        'NBootStd', bootstrap_options.SE,...
+        'Options', statset('UseParallel', true));
 
-parfor i = 1:nboots
-    
-    % Sample independent population.
-    bootndx = randsample(nsubj,nsubj,'true');
-    xb = x.Value(bootndx,:);
-    yb = y.Value(bootndx,:);
-    
-    % Fit the model optimizing the alpha and the lambda hyper-parameters.
-    [coef, best_alpha, best_lambda] = partuner(xb,yb,params);
-    boot_coefs(:, i) = coef;
-    boot_alpha(i) = best_alpha;
-    boot_lambda(i) = best_lambda;
-    
-end
-
-% Save the results in a structure array.
-bootprint.Coefs = boot_coefs;
-bootprint.Alpha = boot_alpha;
-bootprint.Lambda = boot_lambda;
+% Compute bootstrap statistics.
+boots.Variables = ['Intercept'; bootstrap_options.Names];
+boots.Mean = mean(bootstat, 1)';
+boots.Median = median(bootstat, 1)';
+boots.SD = std(bootstat, 0, 1)';
+boots.LowerCI = ci(1, :)';
+boots.UpperCI = ci(2, :)';
+boots.VIP = ((sum(bootstat~=0, 1) * 100) / bootstrap_options.NResamples)';
+bootstrap_results = struct2table(boots);  
 
 end

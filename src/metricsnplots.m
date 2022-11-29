@@ -1,4 +1,4 @@
-function [measures, figures] = metricsnplots(reg_type, cv, k)
+function [measures, figures] = metricsnplots(reg_type, cv)
 % Compute accuracy measures and create the plots.
 % Inputs:
 %   reg_type: type of regression. If logistic regression has been performed
