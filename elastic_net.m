@@ -7,7 +7,7 @@ seed = false;
 %% DATA PARAMETERS
 
 % Specify the full path of the database.
-data_options.DataPath = '/media/psicobiologia/SANDISK/elasticnet_twopointzero/demo/synthetic_data_continuous.xlsx';
+data_options.DataPath = '../demo/synthetic_data_continuous.xlsx';
 % Specify the name of the spreadsheet to be used. Leave empty to lead the 
 % default sheet (the first one).
 data_options.Sheet = [];
