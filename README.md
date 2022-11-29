@@ -44,7 +44,7 @@ Relevant outputs are:
 - ```bootstrap_options```: is a structure array containing the parameters passed to the bootstrap function and the information about the model that will undergo the bootstrap procedure.
 - ```bootstrap_results```: is a table containing the statistics derived from the bootstrap procedure. The mean, median, standard deviation, lower bound of the confidence intervals, upper bound of the confidence intervals, and variable inclusion probability (VIP; frequency of non-zero values over the bootstrap iterations) are reported.
 
-Once the analyses are done, the following code (file names and formats have to be adapted) can be used to save the model and the results in the working directory:
+Once the analyses are done, the following code can be used to save the model and the results in the working directory:
 ```matlab
 save('model.mat');
 writetable(performance, performance.xlsx);
