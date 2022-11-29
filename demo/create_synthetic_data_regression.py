@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 @author: Federico Calesella
-
 """
 
 import pandas as pd
