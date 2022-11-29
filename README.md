@@ -26,7 +26,7 @@ The code was tested on MATLAB versions 2016b and 2017a. Previous and subsequent 
 Please note that the MATLAB Statistics and Machine Learning Toolbox and Parallel Computing Toolbox are required in order to run the code.
 
 ### ii. Installation <a name="Installation"></a>
-For installation the repository folder must be downloaded or cloned.\
+For installation, the repository folder must be downloaded or cloned.\
 If the ZIP folder is downloaded, then it will be required to un-zip it, whereas to clone the repository a working github version will be required.  
 Lastly, the *src* folder will have to be added to the MATLAB path. The setup process should require only a few minutes.
 
