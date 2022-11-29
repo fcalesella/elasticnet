@@ -1,8 +1,5 @@
 # Elastic net
  Cross-validated and bootstrapped elastic-net penalized regression
- 
- Created by: Federico Calesella, Silvia Cazzetta, Federica Colombo, & Benedetta Vai\
- Psychiatry and Clinical Psychobiology Unit, Division of Neuroscience, IRCCS San Raffaele Scientific Institute, Milan, Italy
 
 ## Table of Contents
 1. [Project Overview](#Project_Overview)
@@ -14,7 +11,7 @@
 7. [Contributors](#Contributors)
 
 ## 1. Project Overview <a name="Project_Overview"></a>
-The code is intended to estimate elastic net regression in a machine learning framework, for target prediction purposes. Specifically, it comprises the following pipelines: 
+The code is intended to estimate elastic-net regression in a machine learning framework, for target prediction purposes. Specifically, it comprises the following pipelines: 
 - K-Fold nested cross-validation: for predictive accuracy assessment; 
 - Bootstrap: for assessment of relevant predictors.
 
