@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Apr 23 10:38:24 2021
-
 @author: Federico Calesella
 """
 
