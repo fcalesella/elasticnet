@@ -11,11 +11,12 @@
    2. [Installation](#Installation)
 5. [Instructions for Use](#Instructions_for_Use)
 6. [Demo](#Demo)
+7. [Contributors](#Contributors)
 
 ## 1. Project Overview <a name="Project_Overview"></a>
 The code is intended to estimate elastic net regression in a machine learning framework, for target prediction purposes. Specifically, it comprises the following pipelines: 
 - K-Fold nested cross-validation: for predictive accuracy assessment; 
-- bootstrap: for assessment of relevant predictors.
+- Bootstrap: for assessment of relevant predictors.
 
 ## 2. Setup <a name="Setup"></a>
 ### i. System Requirements <a name="System_Requirements"></a>
@@ -114,3 +115,12 @@ Alternatively, it is also possible to save to excel file both the performance me
 writetable(performance, performance.xlsx);
 writetable(bootstrap_results, bootstrap_results.xlsx)
 ```
+## 7. Contributors <a name="Contributors"></a>
+Federico Calesella\
+Silvia Cazzetta\
+Federica Colombo\
+Beatrice Bravi\
+Mariagrazia Palladini\
+Benedetta Vai
+
+Psychiatry and Clinical Psychobiology Unit, Division of Neuroscience, IRCCS San Raffaele Scientific Institute, Milan, Italy
