@@ -4,6 +4,7 @@
 % scalar or a string (e.g., 'Default'; please refer to the MATLAB function
 % rng). If 'false' is given to seed, no seed will be set.
 seed = 1234;
+
 %% DATA PARAMETERS
 
 % Specify the full path of the database.
