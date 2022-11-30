@@ -7,7 +7,7 @@ seed = 1234;
 %% DATA PARAMETERS
 
 % Specify the full path of the database.
-data_options.DataPath = 'demo/synthetic_data_dichotomous.xlsx';
+data_options.DataPath = 'demo/synthetic_data_continuous.xlsx';
 % Specify the name of the spreadsheet to be used. Leave empty to lead the 
 % default sheet (the first one).
 data_options.Sheet = [];
@@ -17,7 +17,7 @@ data_options.Target = 1;
 data_options.Predictors = (2:21);
 % Specify regression type. Type: 'binomial' for logistic regression or
 % 'normal' for linear regression.
-data_options.TargetType = 'binomial';
+data_options.TargetType = 'normal';
 % Specify normalization type. Type: 'standard' for standardization or 
 % 'minmax' for min-max normalization. 
 data_options.Normalization = 'standard';
