@@ -64,9 +64,8 @@ if strcmp(reg_type, 'binomial')
         k = length(cv.AUC);
         auc_mean = mean(cv.AUC); 
         auc_sd = std(cv.AUC);
-        measures.AUC = cv.AUC;
-        measures.AUC_Mean = auc_mean;
-        measures.AUC_SD = auc_sd;
+        measures.AUCMean = auc_mean;
+        measures.AUCSD = auc_sd;
         
         % Mean of folds (coordinate of ROC curve).
         XmeanROC = foldmean (cv.XFold);

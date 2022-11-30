@@ -16,18 +16,27 @@ function [pval, null_stat] = permute_model(X, y, model, iterations)
 [nsubj, ~] = size(X);
 null_stat = zeros(iterations, 1);
 
-% Avoid to show figures since they will slowdown the execution.
-set(0,'DefaultFigureVisible','off')
-
 % Estimate the non-null model.
 non_null_model = outer_cv(X, y, model);
-[measures, ~] = metricsnplots(model.RegressionType, non_null_model);
 
 % Take proper performance measure based on the type of target.
 if strcmp(model.RegressionType, 'normal')
-    non_null_stat = measures.Rsq;
+    sst = sum((non_null_model.Tests - mean(non_null_model.Tests)).^2);
+    sse = sum((non_null_model.Preds - non_null_model.Tests).^2);
+    % Define R-squared as statistic.
+    non_null_stat = 1 - sse / sst;
 else
-    non_null_stat = measures.BalanceAccuracy;
+    % Compute confusion matrix and the derived measures (true poitives, 
+    % true negatives, false negatives, and false positives).
+    [~,cm,~,~] = confusion(non_null_model.Tests, non_null_model.Preds);
+    TP = cm(2,2);
+    TN = cm(1,1);
+    FN = cm(2,1);
+    FP = cm(1,2);
+    sensitivity = TP/(TP + FN);
+    specificity = TN/(TN+FP);
+    % Define balance accuracy as statistic.
+    non_null_stat = (sensitivity + specificity)/2; 
 end
 
 for it = 1:iterations
@@ -38,18 +47,29 @@ for it = 1:iterations
     
     % Estimate the null model.
     null_model = outer_cv(X, y, model);
-    [measures, ~] = metricsnplots(model.RegressionType, null_model);
     
     % Take proper performance measure based on the type of target.
     if strcmp(model.RegressionType, 'normal')
-        null_stat(it) = measures.Rsq;
+        sst = sum((null_model.Tests - mean(null_model.Tests)).^2);
+        sse = sum((null_model.Preds - null_model.Tests).^2);
+        % Define R-squared as statistic.
+        null_stat(it) = 1 - sse / sst;
     else
-        null_stat(it) = measures.BalanceAccuracy;
+        % Compute confusion matrix and the derived measures (true poitives, 
+        % true negatives, false negatives, and false positives).
+        [~,cm,~,~] = confusion(null_model.Tests, null_model.Preds);
+        TP = cm(2,2);
+        TN = cm(1,1);
+        FN = cm(2,1);
+        FP = cm(1,2);
+        sensitivity = TP/(TP + FN);
+        specificity = TN/(TN+FP);
+        % Define balance accuracy as statistic.
+        null_stat(it) = (sensitivity + specificity)/2; 
     end
 end
 
     % Calculate the p-value.
-    pval = sum(abs(null_stat) >= abs(non_null_stat)) / iterations;
+    pval = (1 + sum(abs(null_stat) >= abs(non_null_stat))) / (1 + iterations);
     
-    set(0,'DefaultFigureVisible','on')
 end
