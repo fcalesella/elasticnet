@@ -232,7 +232,7 @@ cv_results = outer_cv(X, y, cv_options);
 fprintf('\n\nCross-validation state: done.')
 
 % Calculate accuracy metrics and create the plots.
-[performance, figures] = metricsnplots(cv_options.RegressionType, cv_results);
+performance = metricsnplots(cv_options.RegressionType, cv_results);
 
 fprintf('\n\nCross-validation results:\n')
 disp(performance)
@@ -304,7 +304,7 @@ if permute
         permutation_options.NIterations);
 
     fprintf('\n\nPermutations state: done.')
-    fprintf('\n\nPermutations p-value: %d', pval)
+    fprintf('\n\nPermutations p-value: %d\n\n', pval)
 end
 
 clear ans boot dataset kinner kouter normalization_type permute...
@@ -460,35 +460,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function[matmean] = foldmean(xfoldc)
-% Compute mean across the folders of the AUC.
-% Inputs:
-%   xfoldc: folders.
-% Outups:
-%   matmean: mean across the folders.
-
-nrows = zeros(size(xfoldc, 2), 1);
-
-for i = 1:size(xfoldc, 2)
-    nrows(i, 1) = size(xfoldc{i}, 1);
-end
-
-maxrow = max(nrows);
-
-for i = 1:size(xfoldc, 2)
-    sinsize = size(xfoldc{i}, 1);
-    if size(xfoldc{i}, 1) ~= maxrow 
-    xfoldc{i}(sinsize : maxrow, 1) = NaN;
-    end
-end
-
-matfold = cell2mat(xfoldc);
-matmean = nanmean(matfold, 2);
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function [measures, figures] = metricsnplots(reg_type, cv)
+function [measures] = metricsnplots(reg_type, cv)
 % Compute accuracy measures and create the plots.
 % Inputs:
 %   reg_type: type of regression. If logistic regression has been performed
@@ -543,47 +515,19 @@ if strcmp(reg_type, 'binomial')
     dord = (1 - Specificity) * (1 - Sensitivity);
     DOR = dorn/dord;
     measures.DOR = DOR;
-
-    % Plot confusion matrix for accuracy.
-    f1 = figure;
-    plotconfusion(cv.Tests, cv.Preds)
-    figures.f1 = f1;
     
     if isfield(cv, 'AUC')
         
-        k = length(cv.AUC);
         auc_mean = mean(cv.AUC); 
         auc_sd = std(cv.AUC);
         measures.AUCMean = auc_mean;
         measures.AUCSD = auc_sd;
         
-        % Mean of folds (coordinate of ROC curve).
-        XmeanROC = foldmean (cv.XFold);
-        YmeanROC = foldmean (cv.YFold);
-        % Plot ROC.
-        f2 = figure;
-        legend_var = plot_roc(cv.XFold, cv.YFold, k);
-        plot(XmeanROC,YmeanROC, 'r ', 'LineWidth', 2)
-        xlabel('False positive rate'); 
-        ylabel('True positive rate');
-        title_var = sprintf('ROC for %i folds Cross Validation', k);
-        title(title_var)
-        legend(legend_var, 'Mean across Folds')
-        hold off
-        figures.f2 = f2;
-        
     else
         
-        % If the AUC field is not present in cv, calculate it and plot the
-        % ROC.
-        f2= figure;
-        [xfold,yfold,~,auc] = perfcurve(cv.Tests,cv.PredsContinuous,'1');
-        plot(xfold,yfold,'r ', 'LineWidth', 2);
-        xlabel('False positive rate'); ylabel('True positive rate');
-        title('ROC Curves of bootstrap coefficients')
-        fprintf('AUC = %.4f\n', auc);
+        % If the AUC field is not present in cv, calculate it.
+        [~,~,~,auc] = perfcurve(cv.Tests,cv.PredsContinuous,'1');
         measures.AUC = auc;
-        figures.f2 = f2;
         
     end
     
@@ -604,15 +548,6 @@ else
     sse = sum((cv.Preds - cv.Tests).^2);
     Rsq = 1 - sse / sst;
     measures.Rsq = Rsq;
-    
-    % Plot predictions.
-    f1 = figure();
-    f1(1) = scatter(cv.Tests, cv.Preds, 'filled', 'MarkerFaceColor', 'k');
-    f1(2) = lsline;
-    f1(2).Color = 'k';
-    xlabel('True value')
-    ylabel('Prediciton')
-    figures.f1 = f1;
     
 end
 
