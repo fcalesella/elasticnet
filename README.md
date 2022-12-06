@@ -7,6 +7,9 @@
    1. [System Requirements](#System_Requirements)
    2. [Installation](#Installation)
 3. [Instructions for Use](#Instructions_for_Use)
+   1. [```elastic_net``` script](#elastic_net_script)
+   2. [```elasticnet``` function](#elasticnet_function)
+   3. [Standalone application](#standalone_application)
 4. [Demo](#Demo)
 5. [Contributors](#Contributors)
 
@@ -54,6 +57,8 @@ npermutations = 500
 [pval, null_stat] = permute_model(X, y, bootstrap_options.Model, npermutations);
 ```
 where ```npermutations``` can be modified in order to decide how many permutations should be performed. The ```X``` and ```y``` are the predictors and target, and the ```bootstrap_options.Model``` is the model that should be permuted. The ```pval``` variable stands for the p-value and the ```null_stat``` is an array containing the scores of the permuted models. The score is the balance accuracy in the case of dichotomous target and the R<sup>2</sup> for coninuous targets.
+
+
 
 ## 4. Demo <a name="Demo"></a>
 The ```elastic_net``` script can be run in order to try the code and perform both nested cross-validation and bootstrap on synthetic data (see the [Instructions for Use](#Instructions_for_Use) section for instructions on how to run the script).
