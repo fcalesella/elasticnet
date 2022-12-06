@@ -7,10 +7,10 @@ seed = 1234;
 
 %% DATA PARAMETERS
 
-% Specify the full path of the database.
+% String containing the full path to the database.
 data_options.DataPath = 'demo/synthetic_data_continuous.xlsx';
-% Specify the name of the spreadsheet to be used. Leave empty to lead the 
-% default sheet (the first one).
+% String specifying the name of the spreadsheet to be used. Leave empty to 
+% load the default sheet (the first one).
 data_options.Sheet = [];
 % Specify the outcome variable (column number).
 data_options.Target = 1;
@@ -35,9 +35,10 @@ cv_options.KInner = 5;
 % cross-validation.
 cv_options.Alpha = [0.001, 0.5, 1];
 % Specify the set of values on which the lambda hyper-parameter will be
-% optimized. If empty, the default optimization will be performed, otherwise 
-% define a sequence of values such as logspace(-5, 5, 100), in order to test
-% the lambda on 100 values from 10e-5 to 10e5.
+% optimized. If empty, the default MATLAB optimization of lassoglm 
+% (https://it.mathworks.com/help/stats/lassoglm.html) will be performed, 
+% otherwise define a sequence of values such as logspace(-5, 5, 100), in 
+% order to test the lambda on 100 values from 10e-5 to 10e5.
 cv_options.Lambda = [];
 % Specify if class weights will be assigned to the observations. This might 
 % be useful in the context of classification on imbalanced data. Type:
