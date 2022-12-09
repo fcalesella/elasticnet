@@ -3,13 +3,14 @@
 
 ## Table of Contents
 1. [Project Overview](#Project_Overview)
-2. [Setup](#Setup)
-   1. [System Requirements](#System_Requirements)
-   2. [Installation](#Installation)
-3. [Instructions for Use](#Instructions_for_Use)
-   1. [```elastic_net``` script](#elastic_net_script)
-   2. [```elasticnet``` function](#elasticnet_function)
-   3. [Standalone application](#standalone_application)
+2. [Setup](#Setup)\
+   2.1 [System Requirements](#System_Requirements)\
+   2.2 [Installation](#Installation)
+3. [Instructions for Use](#Instructions_for_Use)\
+   3.1 [```elastic_net``` script](#elastic_net_script)\
+   3.2 [```elasticnet``` function](#elasticnet_function)\
+   3.3 [Standalone application](#standalone_application)\
+   3.4 [Relevant outputs](#relevant_outputs)
 4. [Demo](#Demo)
 5. [Contributors](#Contributors)
 
@@ -17,7 +18,7 @@
 The code is intended to create a wrapper to easily estimate an elastic-net penalized regression model, and perform bootstrap and/or permutation analysis on it. The code was conceived to provide users with a full set of analyses by setting just a few of parameters, without the need of writing code.
 
 ## 2. Setup <a name="Setup"></a>
-### i. System Requirements <a name="System_Requirements"></a>
+### 2.1 System Requirements <a name="System_Requirements"></a>
 The code was tested on the following operating systems:
 - Linux
 - Mac OSX
@@ -26,37 +27,104 @@ The code was tested on the following operating systems:
 The code was tested on MATLAB versions 2016b and 2017a. Previous and subsequent versions might differ in some MATLAB built-in employed functions.\
 Please note that the MATLAB Statistics and Machine Learning Toolbox and Parallel Computing Toolbox are required in order to run the code.
 
-### ii. Installation <a name="Installation"></a>
+### 2.2 Installation <a name="Installation"></a>
 For installation, the repository folder must be downloaded or cloned.\
 If the ZIP folder is downloaded, then it will be required to un-zip it, whereas to clone the repository a working github version will be required.  
-Lastly, the *src* folder will have to be added to the MATLAB path. The setup process should require only a few minutes.
+If a working version of MATLAB is intalled, the *src* folder will have to be added to the MATLAB path, otherwise the standalone app may be used (see [Section 3](#Instructions_for_Use)). The setup process should require only a few minutes.
 
 ## 3. Instructions for Use <a name="Instructions_for_Use"></a>
-To estimate elastic net regression both in a stratified nested cross-validation and bootstrap routines, the ```elastic_net``` script can be run. Data are expected to be organized in an excel file with subjects in rows and features in columns. The dataset should include the target variable.\
-Input parameters of ```elastic_net``` and their explanation can be found in the first lines of the script.\
-Relevant outputs are:
-- ```data_options```: is a structure array containing the information needed to properly handle the data.
-- ```cv_options```: is a structure array containing the parameters passed to the cross-validation procedure and the ```lassoglm``` function for elastic-net penalized regression fitting.
-- ```cv_results```: is a structure array containing the results of the nested cross-validation procedure (the following data are saved in the structure array over the cross-validations: coefficients, best lambda value, best alpha value, AUC, ROC coordinates, true observations, and predictions).
-- ```performance```: is a table containing the accuracy measures of the cross-validated model.
-- ```figures```: is a structure array containing the plots derived from the cross-validated model.
-- ```bootstrap_options```: is a structure array containing the parameters passed to the bootstrap function and the information about the model that will undergo the bootstrap procedure.
-- ```bootstrap_results```: is a table containing the statistics derived from the bootstrap procedure. The mean, median, standard deviation, lower bound of the confidence intervals, upper bound of the confidence intervals, and variable inclusion probability (VIP; frequency of non-zero values over the bootstrap iterations) are reported.
+There are three possible ways to run the code:
+- the ```elastic_net``` script
+- the ```elasticnet``` function
+- the standalone app
 
-Once the analyses are done, the following code can be used to save the model and the results in the working directory:
+Note that to run the ```elastic_net``` script and the ```elasticnet``` function a working MATLAB is needed, whereas for the standalone app only a MATLAB runtime is required.
+
+### 3.1 ```elastic_net``` script <a name="elastic_net_script"></a>
+To run the ```elastic_net``` script some parameters have to be set at the beginning of the script. Here an explanation of the meaning of each parameter is provided:
+- ```seed```: specify the seed for random processes, for reproducibility. Seed can be a scalar or a string (e.g., 'Default'; please refer to the MATLAB function rng). If 'false' is given to seed, no seed will be set.
+- ```data_options.DataPath```: string containing the full path to the database.
+- ```data_options.Sheet```: string specifying the name of the spreadsheet to be used. Leave empty to load the default sheet (the first one).
+- ```data_options.Target```: specify the outcome variable (column number).
+- ```data_options.Predictors```: specify the model indipendent variables (column number).
+- ```data_options.TargetType```: specify regression type. Type: 'binomial' for logistic regression or 'normal' for linear regression.
+- ```data_options.Normalization```: specify normalization type. Type: 'standard' for standardization or 'minmax' for min-max normalization. 
+- ```cv_options.KOuter```: specify the number of folds in the outer CV. 
+- ```cv_options.KInner```: specify the number of folds in the inner CV.
+- ```cv_options.Alpha```: specify the values of the alpha hyper-parameter (trade-off between the L1 and L2 regularizations). Alpha can be scalar or a numeric vector. If a numeric vector is provided, the alpha value will be optimized in the cross-validation.
+- ```cv_options.Lambda```: pecify the set of values on which the lambda hyper-parameter will be optimized. If empty, the default MATLAB optimization of [lassoglm](https://it.mathworks.com/help/stats/lassoglm.html) will be performed, otherwise define a sequence of values such as logspace(-5, 5, 100), in order to test the lambda on 100 values from 10e-5 to 10e5.
+- ```cv_options.Weighted```: specify if class weights will be assigned to the observations in an inversely proportional fashion to the number of observations in each class following $W_c = \frac{1}{n_c s_c}$ where $n_c$ is the number of classes, and $s_c$ is the number of subjects belonging to the class $c$. This might be useful in the context of classification on imbalanced data. Type: true to assign class weights or false otherwise.
+- ```bootstrap_options.ModelDefiner```: specify the model that will be undergo bootstrap. Type 'optimize' to perform the optimization of the lambda and alpha hyper-parameters as specified in the cross-validation settings. Otherwise, set a callable (i.e., a function). Callables are passed by putting @ before the desired function (@function). Some examples of functions that can be used are central tendency mesures(e.g., @mean, @median, or @mode).
+- ```bootstrap_options.NResamples```: specify number of bootstrap iterations. 
+- ```bootstrap_options.BootstrapType```: specify the method to calculate confidence intervals (CIs). Type: 'norm' for normal CIs, 'per' for percentile CIs, 'cper' for corrected percentile CIs, 'bca' for bias-corrected CIs, or 'stud' for studentized CIs. Check the MATLAB page of [bootci](https://it.mathworks.com/help/stats/bootci.html) for further details on the options.
+- ```bootstrap_options.Alpha```: specify the significance level.
+- ```bootstrap_options.SE```: specify the number of resmaplings in the inner bootstrap loop for the calculation of the studentized standard error (SE) estimate. This option will be ignored if the BootstrapType is not studentized ('stud'). The MATLAB default for this parameter is 100. Check the MATLAB page of [bootci](https://it.mathworks.com/help/stats/bootci.html) for further details on this option. 
+
+The script is organized in sections in order to let the user choose whether to perform the bootstrap. It should be noted though that the bootstrap cannot be run without before running the cross-validation procedure or having the required inputs.
+It is also possible to run a permutation test to assess if the model predictive score is significantly different from a null model, using the following code (in the workspace there should be the variables generated by the ```elastic_net``` script):
+```matlab
+npermutations = 500
+[pval, null_stat] = permute_model(X, y, bootstrap_options.Model, npermutations);
+```
+where ```npermutations``` can be modified in order to decide how many permutations should be performed. The ```X``` and ```y``` are the predictors and target, and the ```bootstrap_options.Model``` is the model that should be permuted. The ```pval``` variable stands for the p-value and the ```null_stat``` is an array containing the scores of the permuted models. The scores are the balance accuracy in the case of dichotomous target and the R<sup>2</sup> for continuous targets.
+Once the analyses are done, the following code can be used to save the model and the results in the working directory (see [Section 3.4](#relevant_outputs) for further details):
 ```matlab
 save('model.mat');
 writetable(performance, performance.xlsx);
 writetable(bootstrap_results, bootstrap_results.xlsx)
 ```
-Lastly, it is also possible to run a permutation test to assess if the model predictive score is significantly different from a null model, using the following code (in the workspace there should be the variables generated by the ```elastic_net``` script):
+
+### 3.2 ```elasticnet``` function <a name="elasticnet_function"></a>
+The ```elasticnet``` function is contained in the *src* folder, so if the folder is in the MATLAB path (see [Section 2.2](#Installation)) the funciton can be called from everywhere. To run the funciton some both positional and Name-Value arguments have to be set. 
+
+Positional arguments are:
+- ```dataset```: string containing the full path to the database.
+- ```target```: specify the outcome variable (column number).
+- ```predictors```: specify the model indipendent variables (column number).
+- ```target_type```: specify regression type. Type: 'binomial' for logistic regression or 'normal' for linear regression.
+- ```normalization_type```: specify normalization type. Type: 'standard' for standardization or 'minmax' for min-max normalization. 
+- ```kouter```: specify the number of folds in the outer CV. 
+- ```kinner```: specify the number of folds in the inner CV.
+
+Name-Value arguments with their default value are:
+
+- 'Seed', false: specify the seed for random processes, for reproducibility. Seed can be a scalar or a string (e.g., 'Default'; please refer to the MATLAB function rng). If 'false' is given to seed, no seed will be set.
+- 'Sheet', []: string specifying the name of the spreadsheet to be used. Leave empty to load the default sheet (the first one).
+- 'Alpha', 0.5: specify the values of the alpha hyper-parameter (trade-off between the L1 and L2 regularizations). Alpha can be scalar or a numeric vector. If a numeric vector is provided, the alpha value will be optimized in the cross-validation.
+- 'Lambda', []: Specify the set of values on which the lambda hyper-parameter will be optimized. If empty, the default MATLAB optimization of [lassoglm](https://it.mathworks.com/help/stats/lassoglm.html) will be performed, otherwise define a sequence of values such as logspace(-5, 5, 100), in order to test the lambda on 100 values from 10e-5 to 10e5.
+- 'Weighted', false: specify if class weights will be assigned to the observations in an inversely proportional fashion to the number of observations in each class following $W_c = \frac{1}{n_c s_c}$ where $n_c$ is the number of classes, and $s_c$ is the number of subjects belonging to the class $c$. This might be useful in the context of classification on imbalanced data. Type: true to assign class weights or false otherwise.
+- 'Bootstrap', false: boolean defining whether to perform the bootstrap procedure (true) or not (false).
+- 'NResamples', 5000: specify number of bootstrap iterations. This parameter is ignored if 'Bootstrap' is false. 
+- 'BootstrapType', 'norm': specify the method to calculate confidence intervals (CIs). Type: 'norm' for normal CIs, 'per' for percentile CIs, 'cper' for corrected percentile CIs, 'bca' for bias-corrected CIs, or 'stud' for studentized CIs. Check the MATLAB page of [bootci](https://it.mathworks.com/help/stats/bootci.html) for further details on the options. This parameter is ignored if 'Bootstrap' is false. 
+- 'SE', 100: specify the number of resmaplings in the inner bootstrap loop for the calculation of the studentized standard error (SE) estimate. This option will be ignored if the BootstrapType is not studentized ('stud'). The MATLAB default for this parameter is 100. Check the MATLAB page of [bootci](https://it.mathworks.com/help/stats/bootci.html) for further details on this option. This parameter is ignored if 'Bootstrap' is false. 
+- 'Permute', false: boolean defining whether to perform the permutations (true) or not (false).
+- 'NIterations', 5000: specify number of permutation iterations. This parameter is ignored if 'Permute' is false. 
+- 'ModelDefiner', @median: specify the model that will undergo bootstrap or permutations. Type 'optimize' to perform the	optimization of the lambda and alpha hyper-parameters as specified in the cross-validation settings. Otherwise, set a callable (i.e., a function). Callables are passed by putting	@ before the desired function (@function). Some examples of functions that can be used are central tendency mesures (e.g., @mean, @median, or @mode). This parameter is ignored if 'Bootstrap' and 'Permute' are false. 
+
+The function will save a *.mat* file containing the relevant outputs of the funciton (see [Section 3.4](#relevant_outputs) for further details). To save the performance metrics in an excel file, the following code can be used:
 ```matlab
-npermutations = 500
-[pval, null_stat] = permute_model(X, y, bootstrap_options.Model, npermutations);
+load('elasticnet_results.mat');
+writetable(performance, performance.xlsx);
 ```
-where ```npermutations``` can be modified in order to decide how many permutations should be performed. The ```X``` and ```y``` are the predictors and target, and the ```bootstrap_options.Model``` is the model that should be permuted. The ```pval``` variable stands for the p-value and the ```null_stat``` is an array containing the scores of the permuted models. The score is the balance accuracy in the case of dichotomous target and the R<sup>2</sup> for coninuous targets.
+Eventually, to save the results of the bootstrap procedure in an excel file, type: 
+```matlab
+load('elasticnet_results.mat');
+writetable(bootstrap_results, bootstrap_results.xlsx)
+```
 
+### 3.3 Standalone application <a name="standalone_application"></a>
 
+### 3.4 Relevant outputs <a name="relevant_outputs"></a>
+Relevant outputs are:
+- ```data_options```: is a structure array containing the information needed to properly handle the data.
+- ```cv_options```: is a structure array containing the parameters passed to the cross-validation procedure and the lassoglm function for elastic-net penalized regression fitting.
+- ```cv_results```: is a structure array containing the results of the nested cross-validation procedure (the following data are saved in the structure array over the cross-validations: coefficients, best lambda value, best alpha value, AUC, ROC coordinates, true observations, and predictions).
+- ```performance```: is a table containing the accuracy measures of the cross-validated model.
+- ```figures```: is a structure array containing the plots derived from the cross-validated model. This output is available only for the ```elastic_net``` script.
+- ```bootstrap_options```: is a structure array containing the parameters passed to the bootstrap function and the information about the model that will undergo the bootstrap procedure.
+- ```bootstrap_results```: is a table containing the statistics derived from the bootstrap procedure. The mean, median, standard deviation, lower bound of the confidence intervals, upper bound of the confidence intervals, and variable inclusion probability (VIP; frequency of non-zero values over the bootstrap iterations) are reported.
+- ```X```: array containing the predictors extracted from the database.
+- ```y```: array containing the target extracted from the database.
 
 ## 4. Demo <a name="Demo"></a>
 The ```elastic_net``` script can be run in order to try the code and perform both nested cross-validation and bootstrap on synthetic data (see the [Instructions for Use](#Instructions_for_Use) section for instructions on how to run the script).
