@@ -14,9 +14,7 @@
 5. [Contributors](#Contributors)
 
 ## 1. Project Overview <a name="Project_Overview"></a>
-The code is intended to estimate elastic-net regression in a machine learning framework, for target prediction purposes. Specifically, it comprises the following pipelines: 
-- K-Fold nested cross-validation: for predictive accuracy assessment; 
-- Bootstrap: for assessment of relevant predictors.
+The code is intended to create a wrapper to easily estimate an elastic-net penalized regression model, and perform bootstrap and/or permutation analysis on it. The code was conceived to provide users with a full set of analyses by setting just a few of parameters, without the need of writing code.
 
 ## 2. Setup <a name="Setup"></a>
 ### i. System Requirements <a name="System_Requirements"></a>
