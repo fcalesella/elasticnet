@@ -119,7 +119,7 @@ Eventually, to save the results of the bootstrap procedure in an excel file, typ
 >>> load('elasticnet_results.mat');
 >>> writetable(bootstrap_results, bootstrap_results.xlsx)
 ```
-Contrarily to the script, the function will not display any figure. However, it will be possible to create them by:
+Contrarily to the script (see section [3.1 Script](#script)), the function will not display any figure. However, it will be possible to create them by:
 ```matlab
 >>> load('elasticnet_results.mat');
 >>> [~, figures] = metricsnplots(cv_options.RegressionType, cv_results);
@@ -151,12 +151,12 @@ Eventually, to save the results of the bootstrap procedure in an excel file, typ
 >>> load('elasticnet_results.mat');
 >>> writetable(bootstrap_results, bootstrap_results.xlsx)
 ```
-Contrarily to the script, the app will not display any figure. However, it will be possible to create them by:
+Contrarily to the script (see section [3.1 Script](#script)), the app will not display any figure. However, it will be possible to create them by:
 ```matlab
 >>> load('elasticnet_results.mat');
 >>> [~, figures] = metricsnplots(cv_options.RegressionType, cv_results);
 ```
-N.B. In both the Windows and Linux versions make sure to be in the directory of the app, or to provide the right paths.
+N.B. In both the Windows and Linux versions make sure to be in the directory of the app, or to provide the right paths.\
 N.B. In the *standalone* folder the *elasticnet.mat* file contains the source file that was binarized to build the app.
 
 ### 3.4 Relevant outputs <a name="relevant_outputs"></a>
