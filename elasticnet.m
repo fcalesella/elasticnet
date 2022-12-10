@@ -40,9 +40,12 @@ cv_options.Alpha = [0.001, 0.5, 1];
 % otherwise define a sequence of values such as logspace(-5, 5, 100), in 
 % order to test the lambda on 100 values from 10e-5 to 10e5.
 cv_options.Lambda = [];
-% Specify if class weights will be assigned to the observations. This might 
-% be useful in the context of classification on imbalanced data. Type:
-% true to assign class weights or false otherwise.
+% Specify if class weights will be assigned to the observations in an 
+% inversely proportional fashion to the number of observations in each 
+% class following W_c = 1 / (n_c * s_c) where n_c is the number of classes,
+% and s_c is the number of subjects belonging to the class c. This might be
+% useful in the context of classification on imbalanced data. Type: true to
+% assign class weights or false otherwise.
 cv_options.Weighted = false;
 
 %% BOOTSTRAP PARAMETERS

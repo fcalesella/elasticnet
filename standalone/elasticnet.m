@@ -31,9 +31,12 @@ function [] = elasticnet(dataset, target, predictors, target_type, ...
 % 		logspace(-5, 5, 100), in order to test the lambda on 100 
 % 		values from 10e-5 to 10e5.
 % 	'Weighted', false: specify if class weights will be assigned to the 
-% 		observations. This might be useful in the context of 
-% 		classification on imbalanced data. Type: true to assign class 
-% 		weights or false otherwise.
+%       observations in an inversely proportional fashion to the number of 
+%       observations in each class following W_c = 1 / (n_c * s_c where n_c
+%       is the number of classes, and s_c is the number of subjects 
+%       belonging to the class c. This might be useful in the context of 
+%       classification on imbalanced data. Type: true to assign class 
+%       weights or false otherwise.
 % 	'Bootstrap', false: boolean defining whether to perform the bootstrap 
 % 		procedure (true) or not (false).
 % 	'NResamples', 5000: specify number of bootstrap iterations. This 
