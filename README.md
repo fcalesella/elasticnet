@@ -113,6 +113,7 @@ writetable(bootstrap_results, bootstrap_results.xlsx)
 ```
 
 ### 3.3 Standalone application <a name="standalone_application"></a>
+To run the standalone application the ```elasticnet``` command should be called, followed by the input parameters. Since the app is binarization of the ```elasticnet``` function, the input parameters are the same (see section [```elasticnet``` function](#elastic_net_function) for details on the input parameters). Note that none of the input parameters will need to be strings, instead it will be suffcient to type directly in the values separated by space. This also applies to Name-Value arguments, where the name is typed-in as any other value.
 
 ### 3.4 Relevant outputs <a name="relevant_outputs"></a>
 Relevant outputs are:
