@@ -1,5 +1,5 @@
 # Elastic net
- Cross-validated and bootstrapped elastic-net penalized regression
+ Cross-validated, bootstrapped, and permuted elastic-net penalized regression
 
 ## Table of Contents
 1. [Project Overview](#Project_Overview)
@@ -113,7 +113,22 @@ writetable(bootstrap_results, bootstrap_results.xlsx)
 ```
 
 ### 3.3 Standalone application <a name="standalone_application"></a>
-To run the standalone application the ```elasticnet``` command should be called, followed by the input parameters. Since the app is binarization of the ```elasticnet``` function, the input parameters are the same (see section [```elasticnet``` function](#elastic_net_function) for details on the input parameters). Note that none of the input parameters will need to be strings, instead it will be suffcient to type directly in the values separated by space. This also applies to Name-Value arguments, where the name is typed-in as any other value.
+To run the standalone application the ```elasticnet``` command should be called, followed by the input parameters. The input parameters are the same of the ```elasticnet``` function (see section [```elasticnet``` function](#elastic_net_function) for details on the input parameters). Note that none of the input parameters will need to be strings, instead it will be suffcient to type directly in the values separated by a space. This also applies to Name-Value arguments, where the name is typed-in as any other value. Some differences, though, are present between the Windows and Linux versions.
+To run on Windows it is sufficient to open the command window by searching for *cmd* in the programs and type:
+```console
+path_to_elasticnet_folder> elsticnet ~/elsticnet/demo/synthetic_data_continuous.xlsx 1 2:21 normal standard 5 5 Weighted false
+```
+To run on Linux, instead, the path to the runtime should be provided before the input parameters:
+```console
+user@username:~$ elasticnet <path_to_runtime> ~/elsticnet/demo/synthetic_data_continuous.xlsx 1 2:21 normal standard 5 5 Weighted false
+```
+For the Linux version, it is also possible to run the app through the ```run_elasticnet.sh``` file. In both cases make sure that the files have the required permissions. If a permission error is raised, try:
+```console
+user@username:~$ chmod +x run_elasticnet.sh
+user@username:~$ chmod +x elasticnet
+```
+In both the Windows and Linux versions make sure to be in the directory of the app, or to provide the right paths.
+In the *standalone* folder the ```elasticnet.mat``` file contains the source file that was binarized to build the app.
 
 ### 3.4 Relevant outputs <a name="relevant_outputs"></a>
 Relevant outputs are:
