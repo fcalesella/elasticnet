@@ -95,13 +95,13 @@ function [] = elasticnet(dataset, target, predictors, target_type, ...
 % 	y: array containing the target extracted from the database.
     
 data_options.DataPath = dataset;
-data_options.Target = eval(target);
-data_options.Predictors = eval(predictors);
+data_options.Target = target;
+data_options.Predictors = predictors;
 data_options.TargetType = target_type;
 data_options.Normalization = normalization_type;
 
-cv_options.KOuter = eval(kouter);
-cv_options.KInner = eval(kinner);
+cv_options.KOuter = kouter;
+cv_options.KInner = kinner;
 
 namevalue = {'Seed', 'Sheet', 'Alpha', 'Lambda', 'Weighted',...
     'Bootstrap', 'ModelDefiner', 'NResamples', 'BootstrapType',...
@@ -115,7 +115,7 @@ for arg=1:2:length(varargin)
 end
 
 if any(strcmp(varargin, 'Seed'))
-    seed = eval(varargin{find(strcmp(varargin, 'Seed')) + 1});
+    seed = varargin{find(strcmp(varargin, 'Seed')) + 1};
 else
     seed = false;
 end
@@ -133,31 +133,31 @@ else
 end
 
 if any(strcmp(varargin, 'Lambda'))
-    cv_options.Lambda = eval(varargin{find(strcmp(varargin, 'Lambda')) + 1});
+    cv_options.Lambda = varargin{find(strcmp(varargin, 'Lambda')) + 1};
 else
     cv_options.Lambda = [];
 end
 
 if any(strcmp(varargin, 'Weighted'))
-    cv_options.Weighted = eval(varargin{find(strcmp(varargin, 'Weighted')) + 1});
+    cv_options.Weighted = varargin{find(strcmp(varargin, 'Weighted')) + 1};
 else
     cv_options.Weighted = false;
 end
 
 if any(strcmp(varargin, 'Bootstrap'))
     
-    if eval(varargin{find(strcmp(varargin, 'Bootstrap')) + 1})
+    if varargin{find(strcmp(varargin, 'Bootstrap')) + 1}
         
         boot = true;
 
         if any(strcmp(varargin, 'ModelDefiner'))
-            bootstrap_options.ModelDefiner = eval(varargin{find(strcmp(varargin, 'ModelDefiner')) + 1});
+            bootstrap_options.ModelDefiner = varargin{find(strcmp(varargin, 'ModelDefiner')) + 1};
         else
             bootstrap_options.ModelDefiner = @median;
         end
 
         if any(strcmp(varargin, 'NResamples'))
-            bootstrap_options.NResamples = eval(varargin{find(strcmp(varargin, 'NResamples')) + 1});
+            bootstrap_options.NResamples = varargin{find(strcmp(varargin, 'NResamples')) + 1};
         else
             bootstrap_options.NResamples = 5000;
         end
@@ -169,7 +169,7 @@ if any(strcmp(varargin, 'Bootstrap'))
         end
 
         if any(strcmp(varargin, 'SE'))
-            bootstrap_options.SE = eval(varargin{find(strcmp(varargin, 'SE')) + 1});
+            bootstrap_options.SE = varargin{find(strcmp(varargin, 'SE')) + 1};
         else
             bootstrap_options.SE = 100;
         end
@@ -180,18 +180,18 @@ end
     
 if any(strcmp(varargin, 'Permute'))
     
-    if eval(varargin{find(strcmp(varargin, 'Permute')) + 1})
+    if varargin{find(strcmp(varargin, 'Permute')) + 1}
         
         permute = true;
         
         if any(strcmp(varargin, 'ModelDefiner'))
-            permutation_options.ModelDefiner = eval(varargin{find(strcmp(varargin, 'ModelDefiner')) + 1});
+            permutation_options.ModelDefiner = varargin{find(strcmp(varargin, 'ModelDefiner')) + 1};
         else
             permutation_options.ModelDefiner = @median;
         end
 
         if any(strcmp(varargin, 'NIterations'))
-            permutation_options.NIterations = eval(varargin{find(strcmp(varargin, 'NIterations')) + 1});
+            permutation_options.NIterations = varargin{find(strcmp(varargin, 'NIterations')) + 1};
         else
             permutation_options.NIterations = 5000;
         end
