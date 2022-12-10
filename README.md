@@ -24,7 +24,7 @@ The code was tested on the following operating systems:
 - Mac OSX
 - Windows
 
-The code was tested on MATLAB versions 2016b and 2017a. Previous and subsequent versions might differ in some MATLAB built-in employed functions.\
+The code was tested on MATLAB versions 2016b and 2017a. Previous and subsequent versions might differ in some MATLAB built-in employed functions.
 
 ### 2.2 Installation <a name="Installation"></a>
 For installation, the repository folder must be downloaded or cloned.\
@@ -137,8 +137,7 @@ To run on Linux, instead, the path to the runtime should be provided before the 
 ```console
 user@username:~$ elasticnet <path_to_runtime> ~/elsticnet/demo/synthetic_data_continuous.xlsx 1 2:21 normal standard 5 5 Weighted false
 ```
-For the Linux version, it is also possible to run the app through the *run_elasticnet.sh* file.\ 
-In both cases make sure that the files have the required permissions. If a permission error is raised, try:
+For the Linux version, it is also possible to run the app through the *run_elasticnet.sh* file. In both cases make sure that the files have the required permissions. If a permission error is raised, try:
 ```console
 user@username:~$ chmod +x run_elasticnet.sh
 user@username:~$ chmod +x elasticnet
