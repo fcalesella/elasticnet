@@ -129,7 +129,7 @@ N.B. When the working directory is not the *src* folder, make sure that the *src
 To run the standalone application the ```elasticnet``` command should be called, followed by the input parameters. The input parameters are the same of the ```elasticnet``` function (see section [3.2 Function](#function) for details on the input parameters). Note that none of the input parameters will need to be strings, instead it will be suffcient to type directly in the values separated by a space. This also applies to Name-Value arguments, where the name is typed-in as any other value. Some differences, though, are present between the Windows and Linux versions.\
 To run on Windows it is sufficient to open the command window by searching for *cmd* in the programs and type the command followed by the input parameters. Here is an example:
 ```console
-path_to_elasticnet_folder> elasticnet ~/elsticnet/demo/synthetic_data_continuous.xlsx 1 2:21 normal standard 5 5 Weighted false
+path_to_elasticnet_folder> ./elasticnet ~/elsticnet/demo/synthetic_data_continuous.xlsx 1 2:21 normal standard 5 5 Weighted false
 ```
 N.B. The ```Weighted false``` part is defining a Name-Value argument, but it must be simply enetered as two inputs seprated by a space like all the other paramters.
 
@@ -137,11 +137,9 @@ To run on Linux, instead, the path to the runtime should be provided before the 
 ```console
 user@username:~$ elasticnet <path_to_runtime> ~/elsticnet/demo/synthetic_data_continuous.xlsx 1 2:21 normal standard 5 5 Weighted false
 ```
-For the Linux version, it is also possible to run the app through the *run_elasticnet.sh* file. In both cases make sure that the files have the required permissions. If a permission error is raised, try:
-```console
-user@username:~$ chmod +x run_elasticnet.sh
-user@username:~$ chmod +x elasticnet
-```
+For the Linux version, it is also possible to run the app through the *run_elasticnet.sh* file. In both cases make sure that the files have the required permissions for execution.
+
+
 The app will save a *.mat* file containing the relevant outputs (see section [3.4 Relevant outputs](#relevant_outputs) for further details). To save the performance metrics in an excel file, the following code can be used in MATLAB:
 ```matlab
 >>> load('elasticnet_results.mat');
