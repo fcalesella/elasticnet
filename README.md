@@ -106,7 +106,7 @@ Name-Value arguments with their default value are:
 
 Here a very basic example is provided:
 ```matlab
->>> elsticnet('./demo/synthetic_data_continuous.xlsx', 1, 2:21, 'normal', 'standard', 5, 5, 'Weighted', false)
+>>> elasticnet('./demo/synthetic_data_continuous.xlsx', 1, 2:21, 'normal', 'standard', 5, 5, 'Weighted', false)
 ```
 The function will save a *.mat* file containing the relevant outputs of the funciton (see section [3.4 Relevant outputs](#relevant_outputs) for further details). To save the performance metrics in an excel file, the following code can be used:
 ```matlab
