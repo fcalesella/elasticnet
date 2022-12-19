@@ -43,7 +43,7 @@ y = data(:, data_options.Target);
 % Remove cases with missing values (NaNs).
 idx_nan_x = any(isnan(x), 2);
 idx_nan_y = isnan(y);
-idx_nan = (idx_nan_x + idx_nan_y) > 1;
+idx_nan = (idx_nan_x + idx_nan_y) > 0;
 x(idx_nan, :) = [];
 y(idx_nan) = [];
 
